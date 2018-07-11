@@ -1,11 +1,13 @@
-import BD
+from BD import DB
 from cliente import Cliente
 from productos import Producto
 from empleados import Empleado
 from empresa import Empresa
 
 
-unaEmpresa = (1, 'CACA')
-
-unProducto = Producto(1,'Manueh',1000)
-unProducto.insertar()
+DB().setconnection("localhost", "root", "alumno", "mydb")
+unaEmpresa = Empresa()
+unaEmpresa.nombre = 'EL CHINO'
+unaEmpresa.idEmpresa = 1
+unaEmpresa.altaEmpresa()
+unaEmpresa.bajaEmpresa()
