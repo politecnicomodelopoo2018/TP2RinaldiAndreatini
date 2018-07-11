@@ -7,7 +7,5 @@ from empresa import Empresa
 
 DB().setconnection("localhost", "root", "alumno", "mydb")
 unaEmpresa = Empresa()
-unaEmpresa.nombre = 'EL CHINO'
 unaEmpresa.idEmpresa = 1
-unaEmpresa.altaEmpresa()
-unaEmpresa.bajaEmpresa()
+unaEmpresa.modificarEmpresa('Coca-Cola')

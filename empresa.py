@@ -14,6 +14,9 @@ class Empresa(object):
     def bajaEmpresa(self):
         DB().run("DELETE FROM Empresa WHERE idEmpresa = " + str(self.idEmpresa) + ";")
 
+    def modificarEmpresa(self, nuevo):
+        DB().run("UPDATE Empresa SET Nombre_Empresa = '" + nuevo + "' WHERE idEmpresa = " + str(self.idEmpresa) + ";")
+
 
     def agregarProducto(self):
         cursor = DB().run("SELECT * FROM Productos;")
