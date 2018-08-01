@@ -5,6 +5,19 @@ class Empresa(object):
     idEmpresa = None
     nombre = None
 
+    @staticmethod
+    def getEmpresas():
+        listaEmpresas = []
+
+        cursor = DB().run('SELECT * FROM Empresa;')
+        for item in cursor:
+            unaEmpresa = Empresa()
+            unaEmpresa.idEmpresa = item['idEmpresa']
+            unaEmpresa.nombre = item['Nombre_Empresa']
+            listaEmpresas.append(unaEmpresa)
+
+        return listaEmpresas
+
     def __init__(self):
         self.listaProductos = []
 
@@ -17,11 +30,4 @@ class Empresa(object):
     def modificarEmpresa(self, nuevo):
         DB().run("UPDATE Empresa SET Nombre_Empresa = '" + nuevo + "' WHERE idEmpresa = " + str(self.idEmpresa) + ";")
 
-
-    def agregarProducto(self):
-        cursor = DB().run("SELECT * FROM Productos;")
-
-        for item in cursor:
-            unProducto = Producto(item["idProductos"], item["Nombre_Producto"], item["Precio"], item["Empresa_idEmpresa"])
-            self.listaProductos.append(unProducto)
 
