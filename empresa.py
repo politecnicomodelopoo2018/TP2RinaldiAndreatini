@@ -59,12 +59,12 @@ class Empresa(object):
             unEmpleado.idEmpleado = item['idEmpleados']
             unEmpleado.nombreEmpleado = item['Nombre_Empleado']
             unEmpleado.apellidoEmpleado = item['Apellido_Empleado']
-            unEmpleado.fechaNac = datetime.date(item['Fecha_Nac'])
-            unEmpleado.fechaIngreso = datetime.date(item['Ingreso_Fecha'])
+            unEmpleado.fechaNac = item['Fecha_Nac']
+            unEmpleado.fechaIngreso = item['Ingreso_Fecha']
 
             for item2 in Empresa.getEmpleados():
                 if item2.idEmpleado == item['Empresa_idEmpresa']:
                     unEmpleado.Empresa = item2
-            listaEmpleados.append(unEmpleado)
+
         return listaEmpleados
 

@@ -138,4 +138,15 @@ while opcion is not 13:
 
         unEmpleado.altaEmpleado()
 
+    if opcion == 8:
 
+        for item in Empresa.getEmpresas():
+            print(str(item.idEmpresa) + ' ' + item.nombre)
+        opcionEmpresa = int(input('De que empresa elimino el empleado: '))
+        for item in Empresa.getEmpleados():
+            print(str(item.idEmpleado) + ' ' + item.nombreEmpleado)
+        idaEliminar = int(input('Ingrese que id de Empleado a eliminar: '))
+        for item in Empresa.getEmpleados():
+            if item.idEmpleado == idaEliminar and item.Empresa.idEmpresa == opcionEmpresa:
+                item.bajaEmpleado()
+                print('Se ha eliminado el empleado de la Empresa')
