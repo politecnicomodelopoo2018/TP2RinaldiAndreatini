@@ -15,8 +15,7 @@ class Empleado(object):
     def bajaEmpleado(self):
         DB().run("DELETE FROM Empleados WHERE idEmpleados = " + str(self.idEmpleado) + ";")
 
-    def modificarEmpleado(self, nuevonombre, nuevoapellido, nuevaFechaNac, nuevaFechaIngreso):
-        DB().run("UPDATE Empleados SET Nombre_Empleado = '" + nuevonombre + "' , Apellido_Empleado = "+ nuevoapellido +
-                 ",'" + nuevaFechaNac + "','" + nuevaFechaIngreso +" WHERE idEmpleados = " + str(self.idEmpleado) + ";")
+    def modificarEmpleado(self):
+        DB().run("UPDATE Empleados SET Nombre_Empleado = '" + self.nombreEmpleado + "' , Apellido_Empleado = '"+ self.apellidoEmpleado + "',Fecha_Nac = '" + self.fechaNac + "',Ingreso_Fecha = '" + self.fechaIngreso +"' WHERE idEmpleados = " + str(self.idEmpleado) + ";")
 
 

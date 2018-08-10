@@ -13,8 +13,8 @@ class Empresa(object):
     def bajaEmpresa(self):
         DB().run("DELETE FROM Empresa WHERE idEmpresa = " + str(self.idEmpresa) + ";")
 
-    def modificarEmpresa(self, nuevo):
-        DB().run("UPDATE Empresa SET Nombre_Empresa = '" + nuevo + "' WHERE idEmpresa = " + str(self.idEmpresa) + ";")
+    def modificarEmpresa(self):
+        DB().run("UPDATE Empresa SET Nombre_Empresa = '" + self.nombre + "' WHERE idEmpresa = " + str(self.idEmpresa) + ";")
 
     @staticmethod
     def getEmpresas():
@@ -62,9 +62,11 @@ class Empresa(object):
             unEmpleado.fechaNac = item['Fecha_Nac']
             unEmpleado.fechaIngreso = item['Ingreso_Fecha']
 
-            for item2 in Empresa.getEmpleados():
-                if item2.idEmpleado == item['Empresa_idEmpresa']:
+            for item2 in Empresa.getEmpresas():
+                if item2.idEmpresa == item['Empresa_idEmpresa']:
                     unEmpleado.Empresa = item2
+
+            listaEmpleados.append(unEmpleado)
 
         return listaEmpleados
 

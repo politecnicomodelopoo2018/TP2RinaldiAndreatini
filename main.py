@@ -4,6 +4,24 @@ from productos import Producto
 from empleados import Empleado
 from empresa import Empresa
 
+
+def getCliente():
+    listaClientes = []
+
+    cursor = DB().run('SELECT * FROM Cliente;')
+    for item in cursor:
+        unCliente = Cliente()
+        unCliente.idCliente = item['idCliente']
+        unCliente.nombreCliente = item['Nombre_Cliente']
+        unCliente.apellidoCliente = item['Apellido_Cliente']
+        unCliente.fechaNac = item['Fecha_Nac']
+
+        listaClientes.append(unCliente)
+
+    return listaClientes
+
+
+
 DB().setconnection("localhost", "root", "alumno", "mydb")
 
 opcion = 0
@@ -49,7 +67,8 @@ while opcion is not 13:
         for item in Empresa.getEmpresas():
             if item.idEmpresa == idAModificar:
                 nuevoNombre = input('Ingrese nuevo nombre para la Empresa: ')
-                item.modificarEmpresa(nuevoNombre)
+                item.nombre = nuevoNombre
+                item.modificarEmpresa()
                 print('Se ha modificado el nombre de la Empresa')
 
     if opcion == 4:
@@ -92,28 +111,25 @@ while opcion is not 13:
             print(str(item.idProducto) + ' ' + item.nombreProducto)
         idaModificar = int(input('Ingrese que id de Producto modificar: '))
 
+        opcionMod = 0
 
         for item in Empresa.getProductos():
+            while opcionMod is not 3:
+                if item.idProducto == idaModificar and item.Empresa.idEmpresa == opcionEmpresa:
+                    print('1.Nombre')
+                    print('2.Precio')
+                    print('3.Salir')
+                    opcionMod = int(input('Que desea modificar? '))
 
-            if item.idProducto == idaModificar and item.Empresa.idEmpresa == opcionEmpresa:
-                opcion = input('Quiere modificar el nombre?')
+                if opcionMod == 1:
+                    nuevonombre = input('Ingrese nuevo Nombre: ')
+                    item.nombreProducto = nuevonombre
+                    item.modificarProducto()
 
-                if opcion == 's':
-                    nuevonombre = input('Ingrese nuevo nombre: ')
-                    opcion2 = input('Quiere modificar el precio?')
-                    if opcion2 == 's':
-                        nuevoprecio = input('Ingrese nuevo precio: ')
-                        item.modificarProducto(nuevonombre, nuevoprecio)
-                    if opcion2 == 'n':
-                        item.modificarProducto(nuevonombre, item.precio)
-
-                if opcion == 'n':
-                    opcion2 = input('Quiere modificar el precio?')
-                    if opcion2 == 's':
-                        nuevoprecio = input('Ingrese nuevo precio: ')
-                        item.modificarProducto(item.nombreProducto, nuevoprecio)
-                    if opcion2 == 'n':
-                        item.modificarProducto(item.nombreProducto, item.precio)
+                if opcionMod == 2:
+                    nuevoprecio = input('Ingrese nuevo precio: ')
+                    item.precio = nuevoprecio
+                    item.modificarProducto()
 
     if opcion == 7:
         for item in Empresa.getEmpresas():
@@ -150,3 +166,96 @@ while opcion is not 13:
             if item.idEmpleado == idaEliminar and item.Empresa.idEmpresa == opcionEmpresa:
                 item.bajaEmpleado()
                 print('Se ha eliminado el empleado de la Empresa')
+
+    if opcion == 9:
+        for item in Empresa.getEmpresas():
+            print(str(item.idEmpresa) + ' ' + item.nombre)
+        opcionEmpresa = int(input('De que empresa modifico el Empleado: '))
+        for item in Empresa.getEmpleados():
+            print(str(item.idEmpleado) + ' ' + item.nombreEmpleado)
+        idaModificar = int(input('Ingrese que id de Empleado a modificar: '))
+
+
+        for item in Empresa.getEmpleados():
+                opcionMod = 0
+                while opcionMod is not 5:
+                    if item.idEmpleado == idaModificar and item.Empresa.idEmpresa == opcionEmpresa:
+                        print('1.Nombre')
+                        print('2.Apellido')
+                        print('3.Fecha de Nacimiento')
+                        print('4.Fecha de Ingreso')
+                        print('5.Salir')
+                        opcionMod = int(input('Que desea modificar? '))
+
+                    if opcionMod == 1:
+                        nuevonombre = input('Ingrese nuevo Nombre: ')
+                        item.nombreEmpleado = nuevonombre
+                        item.modificarEmpleado()
+
+                    if opcionMod == 2:
+                        nuevoapellido = input('Ingrese nuevo apellido: ')
+                        item.apellidoEmpleado = nuevoapellido
+                        item.modificarEmpleado()
+
+                    if opcionMod == 3:
+                        nuevaFechaNac = input('Ingrese nueva Fecha de Nacimiento: ')
+                        item.fechaNac = nuevaFechaNac
+                        item.modificarEmpleado()
+
+                    if opcionMod == 4:
+                        nuevaFechaIng = input('Ingrese nueva Fecha de Ingreso: ')
+                        item.fechaIngreso = nuevaFechaIng
+                        item.modificarEmpleado()
+    if opcion == 10:
+        unCliente = Cliente()
+        idCliente = input('Ingrese id del Cliente: ')
+        unCliente.idCliente = idCliente
+        nombreCliente = input('Ingrese nombre del Cliente: ')
+        unCliente.nombreCliente = nombreCliente
+        apellido = input('Ingrese apellido del Cliente: ')
+        unCliente.apellidoCliente = apellido
+        fechaNac = input('Ingrese fecha de nacimiento: ')
+        unCliente.fechaNac = fechaNac
+
+        unCliente.altaCliente()
+
+    if opcion == 11:
+        for item in getCliente():
+            print(str(item.idCliente) + ' ' + item.nombreCliente)
+        idAEliminar = int(input('Que Cliente desea eliminar? '))
+        for item in getCliente():
+            if item.idCliente == idAEliminar:
+                item.bajaCliente()
+                print('Se a eliminado el cliente.')
+
+    if opcion == 12:
+        for item in getCliente():
+            print(str(item.idCliente) + ' ' + item.nombreCliente)
+        idaModificar = int(input('Ingrese que id de cliente a modificar: '))
+
+
+        for item in getCliente():
+                opcionMod = 0
+                while opcionMod is not 4:
+                    if item.idCliente == idaModificar:
+                        print('1.Nombre')
+                        print('2.Apellido')
+                        print('3.Fecha de Nacimiento')
+                        print('4.Salir')
+                        opcionMod = int(input('Que desea modificar? '))
+
+                    if opcionMod == 1:
+                        nuevonombre = input('Ingrese nuevo Nombre: ')
+                        item.nombreCliente = nuevonombre
+                        item.modificarCliente()
+
+                    if opcionMod == 2:
+                        nuevoapellido = input('Ingrese nuevo apellido: ')
+                        item.apellidoCliente = nuevoapellido
+                        item.modificarCliente()
+
+                    if opcionMod == 3:
+                        nuevaFechaNac = input('Ingrese nueva Fecha de Nacimiento: ')
+                        item.fechaNac = nuevaFechaNac
+                        item.modificarCliente()
+

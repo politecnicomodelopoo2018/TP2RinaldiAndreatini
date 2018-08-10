@@ -16,7 +16,7 @@ class Producto(object):
     def bajaProducto(self):
         DB().run("DELETE FROM Productos WHERE idProducto = " + str(self.idProducto) + ";")
 
-    def modificarProducto(self, nuevonombre, nuevoprecio):
-        DB().run("UPDATE Productos SET Nombre_Producto = '" + nuevonombre + "' , Precio = "+ str(nuevoprecio) + " WHERE idProducto = " + str(self.idProducto) + ";")
+    def modificarProducto(self):
+        DB().run("UPDATE Productos SET Nombre_Producto = '" + self.nombreProducto + "' , Precio = "+ str(self.precio) + " WHERE idProducto = " + str(self.idProducto) + ";")
 
 
