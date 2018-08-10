@@ -17,7 +17,6 @@ def getCliente():
         unCliente.fechaNac = item['Fecha_Nac']
 
         listaClientes.append(unCliente)
-
     return listaClientes
 
 def getCompra():
@@ -28,15 +27,15 @@ def getCompra():
         unaCompra = Compras()
 
         for item2 in getCliente():
-            if item2.Cliente.idCliente == item['Cliente_idCliente']:
+            if item2.idCliente == item['ClienteIdCliente']:
                 unaCompra.Cliente = item2
 
-        for item2 in getCliente():
-            if item2.Producto.idProducto == item['Productos_idProductos']:
+        for item2 in Empresa.getProductos():
+            if item2.idProducto == item['ProductosIdProductos']:
                 unaCompra.Producto = item2
 
         unaCompra.Cantidad = item['Cantidad']
-        unaCompra.Pago = item['Modo_de_pago']
+        unaCompra.Pago = item['Pago']
 
         listaCompra.append(unaCompra)
 
@@ -44,20 +43,20 @@ def getCompra():
 
 
 def getLaCompra(idCliente, idProducto):
-    cursor = DB().run("SELECT * FROM Compras WHERE Cliente_idCliente = "+ str(idCliente) + "AND Productos_idProductos = "+ str(idProducto) + ";")
+    cursor = DB().run("SELECT * FROM Compras WHERE ClienteIdCliente = "+ str(idCliente) + " AND ProductosIdProductos = " + str(idProducto) + ";")
     for item in cursor:
         unaCompra = Compras()
 
         for item2 in getCliente():
-            if item2.Cliente.idCliente == item['Cliente_idCliente']:
+            if item2.idCliente == item['ClienteIdCliente']:
                 unaCompra.Cliente = item2
 
-        for item2 in getCliente():
-            if item2.Producto.idProducto == item['Productos_idProductos']:
+        for item2 in Empresa.getProductos():
+            if item2.idProducto == item['ProductosIdProductos']:
                 unaCompra.Producto = item2
 
         unaCompra.Cantidad = item['Cantidad']
-        unaCompra.Pago = item['Modo_de_pago']
+        unaCompra.Pago = item['Pago']
 
         return unaCompra
 
@@ -326,10 +325,6 @@ while opcion is not 16:
             print(str(item.Producto.idProducto) + ' ' + item.Producto.nombreProducto + '|' + str(item.Cliente.idCliente) + ' ' + str(item.Cliente.apellidoCliente))
 
         idClienteEliminar = int(input('Que compra de que cliente elimina? '))
-        idProductoEliminar = int(input('Que Producto? '))
+        idProductoEliminar = int(input('Que Producto?'))
 
         getLaCompra(idClienteEliminar, idProductoEliminar).bajaCompra()
-
-
-
-
