@@ -3,7 +3,7 @@ from cliente import Cliente
 from productos import Producto
 from empleados import Empleado
 from empresa import Empresa
-from compras import Compras
+
 
 def getCliente():
     listaClientes = []
@@ -19,52 +19,10 @@ def getCliente():
         listaClientes.append(unCliente)
     return listaClientes
 
-def getCompra():
-    listaCompra = []
-
-    cursor = DB().run('SELECT * FROM Compras;')
-    for item in cursor:
-        unaCompra = Compras()
-
-        for item2 in getCliente():
-            if item2.idCliente == item['ClienteIdCliente']:
-                unaCompra.Cliente = item2
-
-        for item2 in Empresa.getProductos():
-            if item2.idProducto == item['ProductosIdProductos']:
-                unaCompra.Producto = item2
-
-        unaCompra.Cantidad = item['Cantidad']
-        unaCompra.Pago = item['Pago']
-
-        listaCompra.append(unaCompra)
-
-    return listaCompra
-
-
-def getLaCompra(idCliente, idProducto):
-    cursor = DB().run("SELECT * FROM Compras WHERE ClienteIdCliente = "+ str(idCliente) + " AND ProductosIdProductos = " + str(idProducto) + ";")
-    for item in cursor:
-        unaCompra = Compras()
-
-        for item2 in getCliente():
-            if item2.idCliente == item['ClienteIdCliente']:
-                unaCompra.Cliente = item2
-
-        for item2 in Empresa.getProductos():
-            if item2.idProducto == item['ProductosIdProductos']:
-                unaCompra.Producto = item2
-
-        unaCompra.Cantidad = item['Cantidad']
-        unaCompra.Pago = item['Pago']
-
-        return unaCompra
-
-
 DB().setconnection("localhost", "root", "alumno", "mydb")
 
 opcion = 0
-while opcion is not 16:
+while opcion is not 13:
 
     print('1.Alta Empresa')
     print('2.Baja Empresa')
@@ -78,10 +36,7 @@ while opcion is not 16:
     print('10.Alta Cliente')
     print('11.Baja Cliente')
     print('12.Modificar Cliente')
-    print('13.Alta Compra')
-    print('14.Baja Compra')
-    print('15.Modificar Compra')
-    print('16. Salir')
+    print('13. Salir')
 
     opcion = int(input('Ingrese opcion: '))
 
@@ -249,6 +204,10 @@ while opcion is not 16:
                         item.fechaIngreso = nuevaFechaIng
                         item.modificarEmpleado()
     if opcion == 10:
+        for item in Empresa.getEmpresas():
+            print(str(item.idEmpresa) + ' ' + item.nombre)
+        opcionEmpresa = int(input('A que empresa agrega el cliente: '))
+
         unCliente = Cliente()
         idCliente = input('Ingrese id del Cliente: ')
         unCliente.idCliente = idCliente
@@ -258,6 +217,10 @@ while opcion is not 16:
         unCliente.apellidoCliente = apellido
         fechaNac = input('Ingrese fecha de nacimiento: ')
         unCliente.fechaNac = fechaNac
+
+        for item in Empresa.getEmpresas():
+            if item.idEmpresa == opcionEmpresa:
+                unCliente.Empresa = item
 
         unCliente.altaCliente()
 
@@ -300,31 +263,3 @@ while opcion is not 16:
                         nuevaFechaNac = input('Ingrese nueva Fecha de Nacimiento: ')
                         item.fechaNac = nuevaFechaNac
                         item.modificarCliente()
-
-    if opcion == 13:
-        unaCompra = Compras()
-        idCliente = int(input('Ingrese id del Cliente: '))
-        for item in getCliente():
-            if item.idCliente == idCliente:
-                unaCompra.Cliente = item
-
-        idProducto = int(input('Ingrese id del Producto: '))
-        for item in Empresa.getProductos():
-            if item.idProducto == idProducto:
-                unaCompra.Producto = item
-
-        cantidad = input('Cuantos productos quiere comprar? ')
-        unaCompra.Cantidad = cantidad
-        pago = input('Metodo de pago? ')
-        unaCompra.Pago = pago
-
-        unaCompra.altaCompra()
-
-    if opcion == 14:
-        for item in getCompra():
-            print(str(item.Producto.idProducto) + ' ' + item.Producto.nombreProducto + '|' + str(item.Cliente.idCliente) + ' ' + str(item.Cliente.apellidoCliente))
-
-        idClienteEliminar = int(input('Que compra de que cliente elimina? '))
-        idProductoEliminar = int(input('Que Producto?'))
-
-        getLaCompra(idClienteEliminar, idProductoEliminar).bajaCompra()
