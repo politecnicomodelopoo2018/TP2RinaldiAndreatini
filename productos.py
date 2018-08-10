@@ -9,7 +9,7 @@ class Producto(object):
     Empresa = None
 
     def altaProducto(self):
-        DB().run("INSERT INTO Productos( idProducto,Nombre_Producto,Precio, Empresa_idEmpresa) VALUES (" + str(
+        DB().run("INSERT INTO Productos( idProductos,Nombre_Producto,Precio, Empresa_idEmpresa) VALUES (" + str(
             self.idProducto) + ",'" + self.nombreProducto + "'," + str(self.precio) + "," + str(
             self.Empresa.idEmpresa) + ")")
 
@@ -17,6 +17,6 @@ class Producto(object):
         DB().run("DELETE FROM Productos WHERE idProducto = " + str(self.idProducto) + ";")
 
     def modificarProducto(self):
-        DB().run("UPDATE Productos SET Nombre_Producto = '" + self.nombreProducto + "' , Precio = "+ str(self.precio) + " WHERE idProducto = " + str(self.idProducto) + ";")
+        DB().run("UPDATE Productos SET Nombre_Producto = '" + self.nombreProducto + "' , Precio = "+ str(self.precio) + " WHERE idProductos = " + str(self.idProducto) + ";")
 
 

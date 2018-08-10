@@ -37,7 +37,7 @@ class Empresa(object):
         cursor = DB().run('SELECT * FROM Productos;')
         for item in cursor:
             unProducto = Producto()
-            unProducto.idProducto = item['idProducto']
+            unProducto.idProducto = item['idProductos']
             unProducto.nombreProducto = item['Nombre_Producto']
             unProducto.precio = item['Precio']
 

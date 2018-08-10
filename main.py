@@ -3,7 +3,7 @@ from cliente import Cliente
 from productos import Producto
 from empleados import Empleado
 from empresa import Empresa
-
+from compras import Compras
 
 def getCliente():
     listaClientes = []
@@ -20,6 +20,46 @@ def getCliente():
 
     return listaClientes
 
+def getCompra():
+    listaCompra = []
+
+    cursor = DB().run('SELECT * FROM Compras;')
+    for item in cursor:
+        unaCompra = Compras()
+
+        for item2 in getCliente():
+            if item2.Cliente.idCliente == item['Cliente_idCliente']:
+                unaCompra.Cliente = item2
+
+        for item2 in getCliente():
+            if item2.Producto.idProducto == item['Productos_idProductos']:
+                unaCompra.Producto = item2
+
+        unaCompra.Cantidad = item['Cantidad']
+        unaCompra.Pago = item['Modo_de_pago']
+
+        listaCompra.append(unaCompra)
+
+    return listaCompra
+
+
+def getLaCompra(idCliente, idProducto):
+    cursor = DB().run("SELECT * FROM Compras WHERE Cliente_idCliente = "+ str(idCliente) + "AND Productos_idProductos = "+ str(idProducto) + ";")
+    for item in cursor:
+        unaCompra = Compras()
+
+        for item2 in getCliente():
+            if item2.Cliente.idCliente == item['Cliente_idCliente']:
+                unaCompra.Cliente = item2
+
+        for item2 in getCliente():
+            if item2.Producto.idProducto == item['Productos_idProductos']:
+                unaCompra.Producto = item2
+
+        unaCompra.Cantidad = item['Cantidad']
+        unaCompra.Pago = item['Modo_de_pago']
+
+        return unaCompra
 
 
 DB().setconnection("localhost", "root", "alumno", "mydb")
@@ -263,3 +303,33 @@ while opcion is not 16:
                         item.modificarCliente()
 
     if opcion == 13:
+        unaCompra = Compras()
+        idCliente = input('Ingrese id del Cliente: ')
+        for item in getCliente():
+            if item.idCliente == idCliente:
+                unaCompra.Cliente = item
+
+        idProducto = input('Ingrese id del Producto: ')
+        for item in Empresa.getProductos():
+            if item.idProducto == idProducto:
+                unaCompra.Producto = item
+
+        cantidad = input('Cuantos productos quiere comprar? ')
+        unaCompra.Cantidad = cantidad
+        pago = input('Metodo de pago? ')
+        unaCompra.Pago = pago
+
+        unaCompra.altaCompra()
+
+    if opcion == 14:
+        for item in getCompra():
+            print(str(item.Producto.idProducto) + ' ' + item.Producto.nombreProducto + '|' + str(item.Cliente.idCliente) + ' ' + str(item.Cliente.apellidoCliente))
+
+        idClienteEliminar = int(input('Que compra de que cliente elimina? '))
+        idProductoEliminar = int(input('Que Producto? '))
+
+        getLaCompra(idClienteEliminar, idProductoEliminar).bajaCompra()
+
+
+
+
