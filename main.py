@@ -304,12 +304,12 @@ while opcion is not 16:
 
     if opcion == 13:
         unaCompra = Compras()
-        idCliente = input('Ingrese id del Cliente: ')
+        idCliente = int(input('Ingrese id del Cliente: '))
         for item in getCliente():
             if item.idCliente == idCliente:
                 unaCompra.Cliente = item
 
-        idProducto = input('Ingrese id del Producto: ')
+        idProducto = int(input('Ingrese id del Producto: '))
         for item in Empresa.getProductos():
             if item.idProducto == idProducto:
                 unaCompra.Producto = item
