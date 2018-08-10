@@ -25,7 +25,7 @@ def getCliente():
 DB().setconnection("localhost", "root", "alumno", "mydb")
 
 opcion = 0
-while opcion is not 13:
+while opcion is not 16:
 
     print('1.Alta Empresa')
     print('2.Baja Empresa')
@@ -39,7 +39,10 @@ while opcion is not 13:
     print('10.Alta Cliente')
     print('11.Baja Cliente')
     print('12.Modificar Cliente')
-    print('13. Salir')
+    print('13.Alta Compra')
+    print('14.Baja Compra')
+    print('15.Modificar Compra')
+    print('16. Salir')
 
     opcion = int(input('Ingrese opcion: '))
 
@@ -259,3 +262,4 @@ while opcion is not 13:
                         item.fechaNac = nuevaFechaNac
                         item.modificarCliente()
 
+    if opcion == 13:
