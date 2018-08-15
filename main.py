@@ -4,7 +4,6 @@ from productos import Producto
 from empleados import Empleado
 from empresa import Empresa
 
-
 def getCliente():
     listaClientes = []
 

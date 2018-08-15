@@ -11,6 +11,9 @@ class Empresa(object):
         DB().run("INSERT INTO Empresa( idEmpresa,Nombre_Empresa) VALUES (" + str(
             self.idEmpresa) + ",'" + self.nombre + "');")
     def bajaEmpresa(self):
+        DB().run("DELETE FROM Productos WHERE Empresa_idEmpresa = " + str(self.idEmpresa) + ";")
+        DB().run("DELETE FROM Empleados WHERE Empresa_idEmpresa = " + str(self.idEmpresa) + ";")
+        DB().run("DELETE FROM Cliente WHERE Empresa_idEmpresa = " + str(self.idEmpresa) + ";")
         DB().run("DELETE FROM Empresa WHERE idEmpresa = " + str(self.idEmpresa) + ";")
 
     def modificarEmpresa(self):
